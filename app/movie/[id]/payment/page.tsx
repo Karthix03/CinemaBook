@@ -65,8 +65,21 @@ export default function Payment() {
     setIsProcessing(true);
 
     try {
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Redirect to respective payment method
+      if (paymentMethod === 'card') {
+        // Simulate card payment processing
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } else if (paymentMethod === 'upi') {
+        // Redirect to UPI payment
+        const upiUrl = `upi://pay?pa=merchant@paytm&pn=CinemaBook&am=${grandTotal}&cu=INR&tn=Movie Ticket Payment`;
+        window.open(upiUrl, '_blank');
+        // Simulate payment confirmation after redirect
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      } else if (paymentMethod === 'netbanking') {
+        // Simulate netbanking redirect
+        window.open('https://netbanking.example.com', '_blank');
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
 
       // Create booking
       const bookingId = addBooking({
@@ -222,7 +235,20 @@ export default function Payment() {
                       {['SBI', 'HDFC', 'ICICI', 'Axis', 'Kotak', 'PNB'].map((bank) => (
                         <button
                           key={bank}
+                          type="button"
                           className="p-4 border rounded-lg hover:bg-gray-50 text-center font-medium"
+                          onClick={() => {
+                            // Simulate bank redirect
+                            const bankUrls = {
+                              'SBI': 'https://retail.onlinesbi.com',
+                              'HDFC': 'https://netbanking.hdfcbank.com',
+                              'ICICI': 'https://infinity.icicibank.com',
+                              'Axis': 'https://www.axisbank.com/retail/online-services/axisbank-internet-banking',
+                              'Kotak': 'https://netbanking.kotak.com',
+                              'PNB': 'https://netpnb.com'
+                            };
+                            window.open(bankUrls[bank as keyof typeof bankUrls], '_blank');
+                          }}
                         >
                           {bank}
                         </button>

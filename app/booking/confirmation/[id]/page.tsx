@@ -30,6 +30,44 @@ export default function BookingConfirmation() {
   }, [params.id, router]);
 
   const handleDownload = () => {
+    if (!booking) return;
+
+    // Create ticket content
+    const ticketContent = `
+CINEMABOOK - MOVIE TICKET
+========================
+
+Booking ID: ${booking.id}
+Movie: ${booking.movieTitle}
+Theater: ${booking.theaterName}
+Date: ${format(new Date(booking.date), 'EEE, MMM dd, yyyy')}
+Time: ${booking.showtime}
+Seats: ${booking.seats.map(seat => `${seat.row}${seat.number}`).join(', ')}
+Total Amount: ₹${booking.totalAmount}
+Status: ${booking.status.toUpperCase()}
+
+IMPORTANT INSTRUCTIONS:
+• Please arrive 30 minutes before showtime
+• Carry valid ID proof for verification
+• Show this ticket for entry
+• Outside food and drinks not allowed
+• Keep mobile phones on silent mode
+
+Thank you for choosing CinemaBook!
+========================
+    `.trim();
+
+    // Create and download the file
+    const blob = new Blob([ticketContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `CinemaBook-Ticket-${booking.id}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
     toast.success('Ticket downloaded successfully!');
   };
 
