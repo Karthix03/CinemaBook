@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CinemaBook Test Suite" verbose="1">
+    <parameter name="browser" value="chrome"/>
+    <parameter name="baseUrl" value="http://localhost:3000"/>
+    
+    <test name="Login Module Tests">
+        <classes>
+            <class name="com.cinemabook.tests.LoginPageTest"/>
+        </classes>
+    </test>
+    
+    <test name="Homepage Module Tests">
+        <classes>
+            <class name="com.cinemabook.tests.HomepageTest"/>
+        </classes>
+    </test>
+    
+    <test name="Seat Selection Module Tests">
+        <classes>
+            <class name="com.cinemabook.tests.SeatSelectionTest"/>
+        </classes>
+    </test>
+    
+    <test name="Confirmation Module Tests">
+        <classes>
+            <class name="com.cinemabook.tests.ConfirmationTest"/>
+        </classes>
+    </test>
+</suite>
